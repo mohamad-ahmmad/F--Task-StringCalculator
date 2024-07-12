@@ -7,16 +7,21 @@ open System
 let Add (numbers:string):int =
     match numbers with
     | "" -> 0
-    | _ -> match numbers.Split(",")  with
-           | [| num1 |] -> (int num1)
-           | [| num1 ; num2 |] -> (int num1) + (int num2)
-           | _ -> failwith "Not Supported"
+    | _ -> numbers.Split(",")
+           |> Array.map int
+           |> Array.sum
 
 //Step 1:
 printfn "%d" (Add "")
 printfn "%d" (Add "1")
 printfn "%d" (Add "1,2")
 printfn "%d" (Add "-1,4")
-printfn "%d" (Add "1,2,3,4") // thorw an exception
+//printfn "%d" (Add "1,2,3,4") // thorw an exception
+
+//-------
+
+//Step 2:
+printfn "%d" (Add "1,2,3,4")
+printfn "%d" (Add "0,2,10,4,4")
 
 //-------
