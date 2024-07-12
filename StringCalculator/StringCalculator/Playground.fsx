@@ -26,5 +26,7 @@ tailSubString minDel
 "[".IndexOf("]")
 "ds".Substring(1, "[ds]".Length-2)
 
+"Nums: " + [| 1;2;3 |].ToString()
+
 
 

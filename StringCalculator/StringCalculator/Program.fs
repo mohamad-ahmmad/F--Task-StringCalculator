@@ -23,25 +23,34 @@ let ExtractDelimiter (delimiters:string)  =
             else
                 failwith "Not supported delimiter"
 
+let ToStringArray (array: int array) =
+    "[" + String.Join (", ", array) + "]"
+
 let Add (numbers:string):int =
-    if numbers = "" then
-        0
-    elif not (numbers.StartsWith("//")) then
-        numbers.Split([|","; "\n"|], StringSplitOptions.None) |> Array.map int |> Array.sum
-    else
-        let parts = numbers.Split("\n")
-        parts[0] |> ExtractDelimiter |> Tokenize parts[1]
-        |> Array.map int |> Array.sum
+    let result =
+        if numbers = "" then
+            [| 0 |]
+        elif not (numbers.StartsWith("//")) then
+            numbers.Split([|","; "\n"|], StringSplitOptions.None) |> Array.map int
+        else
+            let parts = numbers.Split("\n")
+            parts[0] |> ExtractDelimiter |> Tokenize parts[1]
+            |> Array.map int
         
-        
-        
+    let negValues = result |> Array.filter (fun (num:int) -> num < 0)
+    match negValues.Length with
+    | 0 -> result |> Array.sum
+    | _ -> failwith ("negatives not allowed " + ToStringArray negValues)
+    
+
+    
 
 //Step 1:
 printfn "%d" (Add "")
 printfn "%d" (Add "1")
 printfn "%d" (Add "1,2")
-printfn "%d" (Add "-1,4")
-//printfn "%d" (Add "1,2,3,4") // thorw an exception
+//printfn "%d" (Add "-1,4") //throw an exception negatives
+//printfn "%d" (Add "1,2,3,4") // thorw an exception in Step 1
 
 //-------
 
@@ -53,6 +62,13 @@ printfn "%d" (Add "0,2,10,4,4")
 //Step 3:
 printfn "%d" (Add "0\n2,10\n4,4")
 
-//step 4:
+//-------
+
+//Step 4:
 printfn "%d" (Add "//*\n1*2*10")
 printfn "%d" (Add "//[-]\n1-4-10")
+
+//-------
+
+//Step 5:
+//printfn "%d" (Add "//^\n11^2^-10^-3") //throw an exception negatives not allowed
