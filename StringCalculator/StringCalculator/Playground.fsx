@@ -19,13 +19,12 @@ tailSubString minDel
 [1;2;3;4] |> List.fold (fun acc num -> acc+num ) 0
 
 "1\n2,3".Split([|"\n"; ","|], System.StringSplitOptions.None)
+//[delimiters.Substring(3, delimiters.IndexOf("]")-3)]
+//(tokenize "123%%23;;54\n54" ["%%";";;";"\n"])
 
-let tokenize (input: string) (delimiters: string list) =
-    let uniqueDelimiter = '\u0001'
-    
-    let replacedString = delimiters 
-                         |> List.fold (fun (acc: string) delimiter -> acc.Replace(delimiter, uniqueDelimiter.ToString())) input
-    
-    replacedString.Split(uniqueDelimiter)
+"//".Substring(2)
+"[".IndexOf("]")
+"ds".Substring(1, "[ds]".Length-2)
 
-(tokenize "123%%23;;54\n54" ["%%";";;";"\n"])
+
+
