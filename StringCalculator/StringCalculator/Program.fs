@@ -1,16 +1,10 @@
 ﻿// For more information see https://aka.ms/fsharp-console-apps
 
 open System
+open Utils
 
-let Tokenize (input: string) (delimiters: string list) =
-    let uniqueDelimiter = '\u0001'
-    
-    let replacedString = delimiters 
-                         |> List.fold (fun (acc: string) delimiter -> acc.Replace(delimiter, uniqueDelimiter.ToString())) input
-    
-    replacedString.Split(uniqueDelimiter)
 
-let ExtractDelimiters (delimiters:string)  =
+let private ExtractDelimiters (delimiters:string)  =
     let trimmedDelimiters = delimiters.Substring(2)
 
     if String.IsNullOrEmpty trimmedDelimiters || trimmedDelimiters = "[]" then 
@@ -19,28 +13,34 @@ let ExtractDelimiters (delimiters:string)  =
         trimmedDelimiters.Substring(1, trimmedDelimiters.Length - 2).Split("][") |> Array.toList
     else
         [trimmedDelimiters]
-        
 
-let ToStringArray (array: int array) =
-    "[" + String.Join (", ", array) + "]"
 
-let Add (numbers:string):int =
-    let result =
-        if numbers = "" then
-            [| 0 |]
+let private ThrowExceptionIfAnyNegatives (array: int array) =
+    let negValues = Array.filter (fun (num:int) -> num < 0) array
+    match negValues.Length with
+    | 0 -> array
+    | _ -> failwith ("negatives not allowed " + ToStringArray negValues)
+
+let private ExtractNumbersFromInput (numbers: string) =
+    let extractedNumber:string[] =
+        if String.IsNullOrWhiteSpace numbers then
+            [| "0" |]
         elif not (numbers.StartsWith("//")) then
-            numbers.Split([|","; "\n"|], StringSplitOptions.None) |> Array.map int
+            numbers.Split([|","; "\n"|], StringSplitOptions.None)
         else
             let parts = numbers.Split("\n")
             parts[0] |> ExtractDelimiters |> Tokenize parts[1]
-            |> Array.map int
-        
-    let negValues = result |> Array.filter (fun (num:int) -> num < 0)
-    match negValues.Length with
-    | 0 -> result |> Array.filter (fun num -> num <= 1000) |>Array.sum
-    | _ -> failwith ("negatives not allowed " + ToStringArray negValues)
-    
 
+    extractedNumber |> Array.map int
+        
+            
+let Add (numbers:string):int =
+    numbers
+    |> ExtractNumbersFromInput
+    |> ThrowExceptionIfAnyNegatives
+    |> Array.filter (fun num -> num <= 1000) 
+    |> Array.sum
+  
     
 
 //Step 1:
