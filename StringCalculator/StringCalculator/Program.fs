@@ -39,7 +39,7 @@ let Add (numbers:string):int =
         
     let negValues = result |> Array.filter (fun (num:int) -> num < 0)
     match negValues.Length with
-    | 0 -> result |> Array.sum
+    | 0 -> result |> Array.filter (fun num -> num <= 1000) |>Array.sum
     | _ -> failwith ("negatives not allowed " + ToStringArray negValues)
     
 
@@ -72,3 +72,7 @@ printfn "%d" (Add "//[-]\n1-4-10")
 
 //Step 5:
 //printfn "%d" (Add "//^\n11^2^-10^-3") //throw an exception negatives not allowed
+
+//-------
+//Step 6:
+printfn "%d" (Add "1001,10,2")
