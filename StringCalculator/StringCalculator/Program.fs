@@ -8,20 +8,20 @@ let Tokenize (input: string) (delimiters: string list) =
     let replacedString = delimiters 
                          |> List.fold (fun (acc: string) delimiter -> acc.Replace(delimiter, uniqueDelimiter.ToString())) input
     
-    replacedString.Split(uniqueDelimiter) 
+    replacedString.Split(uniqueDelimiter)
 
-let ExtractDelimiter (delimiters:string)  =
-    let delimiter = delimiters.Substring(2);
+let ExtractDelimiter (delimiter:string)  =
+    let delimiter = delimiter.Substring(2)
+    let delimiterStr =
+        if delimiter.StartsWith("[") && delimiter.EndsWith("]") then
+            delimiter.Substring(1, delimiter.Length - 2)
+        else
+            delimiter
 
-    match delimiter.Length with 
-    | 1 -> [delimiter]
-    | _ -> if delimiter.StartsWith("[") && delimiter.EndsWith("]") then
-                let delChar = delimiter.Substring(1, delimiter.Length - 2)
-                match delChar.Length with
-                | 1 -> [delChar]
-                | _ -> failwith "Not supported empty delimiter char"
-            else
-                failwith "Not supported delimiter"
+    match delimiterStr.Length with
+        | 0 -> failwith "Not supported format please follow the following //[delimiter]\n[numbers…]."
+        | _ -> [delimiterStr]
+        
 
 let ToStringArray (array: int array) =
     "[" + String.Join (", ", array) + "]"
@@ -76,3 +76,7 @@ printfn "%d" (Add "//[-]\n1-4-10")
 //-------
 //Step 6:
 printfn "%d" (Add "1001,10,2")
+
+//Step 7:
+printfn "%d" (Add "//***\n2***10***3")
+printfn "%d" (Add "//[*&*]\n2*&*10*&*3")
