@@ -10,17 +10,15 @@ let Tokenize (input: string) (delimiters: string list) =
     
     replacedString.Split(uniqueDelimiter)
 
-let ExtractDelimiter (delimiter:string)  =
-    let delimiter = delimiter.Substring(2)
-    let delimiterStr =
-        if delimiter.StartsWith("[") && delimiter.EndsWith("]") then
-            delimiter.Substring(1, delimiter.Length - 2)
-        else
-            delimiter
+let ExtractDelimiters (delimiters:string)  =
+    let trimmedDelimiters = delimiters.Substring(2)
 
-    match delimiterStr.Length with
-        | 0 -> failwith "Not supported format please follow the following //[delimiter]\n[numbers…]."
-        | _ -> [delimiterStr]
+    if String.IsNullOrEmpty trimmedDelimiters || trimmedDelimiters = "[]" then 
+        failwith "Empty delimiter are not allowed"
+    elif trimmedDelimiters.StartsWith("[") && trimmedDelimiters.EndsWith("]") then
+        trimmedDelimiters.Substring(1, trimmedDelimiters.Length - 2).Split("][") |> Array.toList
+    else
+        [trimmedDelimiters]
         
 
 let ToStringArray (array: int array) =
@@ -34,7 +32,7 @@ let Add (numbers:string):int =
             numbers.Split([|","; "\n"|], StringSplitOptions.None) |> Array.map int
         else
             let parts = numbers.Split("\n")
-            parts[0] |> ExtractDelimiter |> Tokenize parts[1]
+            parts[0] |> ExtractDelimiters |> Tokenize parts[1]
             |> Array.map int
         
     let negValues = result |> Array.filter (fun (num:int) -> num < 0)
@@ -80,3 +78,6 @@ printfn "%d" (Add "1001,10,2")
 //Step 7:
 printfn "%d" (Add "//***\n2***10***3")
 printfn "%d" (Add "//[*&*]\n2*&*10*&*3")
+
+//Step 8&9:
+printfn "%d" (Add "//[&*][%]\n10&*2&*8")
