@@ -17,7 +17,7 @@ let private ExtractDelimiters (delimiters:string):Result<string list, AppErrors>
         Ok [trimmedDelimiters]
 
 
-let private ThrowExceptionIfAnyNegatives (array: int array):Result<int array, AppErrors> =
+let private ValidateNoNegatives (array: int array):Result<int array, AppErrors> =
     let negValues = Array.filter (fun (num:int) -> num < 0) array
     match negValues.Length with
     | 0 -> Ok array
@@ -45,7 +45,7 @@ let private ExtractNumbersFromInput (numbers: string): Result<int array, AppErro
 let Add (numbers:string): Result<int, AppErrors> =
     numbers
     |> ExtractNumbersFromInput
-    |> Bind ThrowExceptionIfAnyNegatives
+    |> Bind ValidateNoNegatives
     |> Map (Array.filter (fun num -> num <= 1000))
     |> Map Array.sum
   
