@@ -39,15 +39,15 @@ let private ExtractNumbersFromInput (numbers: string): Result<int array, AppErro
             parts.[0]
             |> ExtractDelimiters
             |> Tokenize parts[1]
-            |> map (Array.map int)
+            |> Map (Array.map int)
         
             
 let Add (numbers:string): Result<int, AppErrors> =
     numbers
     |> ExtractNumbersFromInput
-    |> bind ThrowExceptionIfAnyNegatives
-    |> map (Array.filter (fun num -> num <= 1000))
-    |> map Array.sum
+    |> Bind ThrowExceptionIfAnyNegatives
+    |> Map (Array.filter (fun num -> num <= 1000))
+    |> Map Array.sum
   
     
 

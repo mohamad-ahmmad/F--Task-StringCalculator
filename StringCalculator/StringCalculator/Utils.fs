@@ -5,13 +5,13 @@ type AppErrors =
     | InvalidInputFormat
     | NegativeNumbers of int array
 
-let bind f inp =
+let Bind f inp =
     match inp with
     | Ok x -> f x
     | Error e -> Error e
 
 
-let map f inp =
+let Map f inp =
     match inp with
     | Ok x -> Ok (f x)
     | Error e -> Error e
