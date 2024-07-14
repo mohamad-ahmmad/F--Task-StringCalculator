@@ -3,7 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.9.34622.214
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "StringCalculator", "StringCalculator\StringCalculator.fsproj", "{F60D811F-212A-4675-B57B-465E92E7CA0B}"
+Project("{6EC3EE1D-3C4E-46DD-8F32-0CC8E7565705}") = "StringCalculator", "StringCalculator\StringCalculator.fsproj", "{F60D811F-212A-4675-B57B-465E92E7CA0B}"
+EndProject
+Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "StringCalculator.Tests", "StringCalculator.Tests\StringCalculator.Tests.fsproj", "{954B9B74-BAF1-4287-9074-3119EFA26216}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +17,10 @@ Global
 		{F60D811F-212A-4675-B57B-465E92E7CA0B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F60D811F-212A-4675-B57B-465E92E7CA0B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F60D811F-212A-4675-B57B-465E92E7CA0B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{954B9B74-BAF1-4287-9074-3119EFA26216}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{954B9B74-BAF1-4287-9074-3119EFA26216}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{954B9B74-BAF1-4287-9074-3119EFA26216}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{954B9B74-BAF1-4287-9074-3119EFA26216}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
